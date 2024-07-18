@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tic-tac-toe</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="msg hide">
+       <h4 id="message">winner</h4> 
+       <button id="ngame">New Game</button>
+    </div>
+    
+    <main>
+    <h1> Tic Tac Toe</h1>
+    <div class="container">
+     <div class="game">
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+     </div>
+    </div>
+    <button id="reset">RESET GAME</button>
+    </main>
+    <script>
+        let boxes = document.querySelectorAll(".box");
+let reset = document.querySelector("#reset");
+let newgamebtn=document.querySelector("#ngame");
+let msgcont=document.querySelector(".msg");
+let msgwin=document.querySelector("#message");
+
+let turnO=true;
+const winpattern = [
+    [0,1,2],
+    [0,3,6],
+    [0,4,8],
+    [1,4,7],
+    [2,5,8],
+    [2,4,6],
+    [3,4,5],
+    [6,7,8]
+];
+const resetgame=()=>{
+    turnO=true;
+    enablebtn();
+    msgcont.classList.add("hide");
+};
+
+boxes.forEach((box) => {
+
+    box.addEventListener("click",()=>{
+        console.log("clicked");
+        if(turnO){
+            box.innerText="O";
+            turnO=false;
+        }else{
+            box.innerText="X"
+            turnO=true;
+        }
+        box.disabled="true";
+        checkwinner();
+    });  
+});
+
+const disablebtn=()=>{
+    for(let box of boxes){
+        box.disabled=true;
+    }
+}
+const enablebtn=()=>{
+    for(let box of boxes){
+        box.disabled=false;
+        box.innerText="";
+    }
+}
+
+const showwinner =(winner)=>{
+msgcont.innerText=`Congratulations,winner is ${winner}`;
+msgcont.classList.remove("hide");
+}
+const checkwinner=()=>{
+    for(let pattern of winpattern){
+       let pos1val=boxes[pattern[0]].innerText;
+       let pos2val=boxes[pattern[1]].innerText;
+       let pos3val=boxes[pattern[2]].innerText;
+
+       if(pos1val!="" && pos2val!="" && pos3val!=""){
+        if(pos1val==pos2val &&pos2val== pos3val){
+            console.log("winner",pos1val);
+            showwinner(pos1val);
+        }
+        }
+       }
+    }
+
+ newgamebtn.addEventListener("click",resetgame);
+ reset.addEventListener("click",resetgame);
+    </script>
+</body>
+</html>
